@@ -2,17 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CORS Test</title>
   <style>
     body {
       font-family: monospace;
       background: #121212;
       color: #00ff99;
-      padding: 20px;
       margin: 0;
-      height: 100vh;
       overflow: hidden;
+      height: 100vh;
       position: relative;
     }
 
@@ -39,20 +38,19 @@
       color: #1f1f1f;
     }
 
-    .matrix-line {
+    .char {
       position: absolute;
-      white-space: nowrap;
       color: #00ff99;
-      opacity: 0.15;
-      font-size: 14px;
-      pointer-events: none;
-      animation: rise 4s linear forwards;
+      text-shadow: 0 0 5px #00ff99;
+      font-size: 18px;
+      opacity: 0.85;
+      animation: floatChar 1.2s linear forwards;
     }
 
-    @keyframes rise {
+    @keyframes floatChar {
       0% {
         transform: translateY(100vh);
-        opacity: 0.15;
+        opacity: 0.8;
       }
       100% {
         transform: translateY(-20vh);
@@ -71,25 +69,28 @@
   <script>
     const chars = '01#@%$&*+=-'.split('');
 
-    function createMatrixLine() {
-      const line = document.createElement('div');
-      line.className = 'matrix-line';
-      const textLength = Math.floor(Math.random() * 30) + 20;
-      line.textContent = Array.from({ length: textLength }, () =>
-        chars[Math.floor(Math.random() * chars.length)]
-      ).join('');
+    function spawnSnakeColumn() {
+      const columnX = Math.random() * window.innerWidth;
+      const length = Math.floor(Math.random() * 10) + 6;
 
-      line.style.left = `${Math.random() * 100}%`;
-      line.style.top = '100vh';
+      for (let i = 0; i < length; i++) {
+        setTimeout(() => {
+          const char = document.createElement('div');
+          char.className = 'char';
+          char.style.left = `${columnX}px`;
+          char.style.bottom = `0px`;
+          char.textContent = chars[Math.floor(Math.random() * chars.length)];
+          document.body.appendChild(char);
 
-      document.body.appendChild(line);
-
-      setTimeout(() => {
-        line.remove();
-      }, 4000); // match animation duration
+          // remove after animation
+          setTimeout(() => {
+            char.remove();
+          }, 1200);
+        }, i * 100); // stagger each character
+      }
     }
 
-    setInterval(createMatrixLine, 500); // One every 0.5s
+    setInterval(spawnSnakeColumn, 500);
   </script>
 </body>
 </html>
