@@ -19,6 +19,8 @@
     .centered {
       margin-top: 20vh;
       text-align: center;
+      position: relative;
+      z-index: 10;
     }
 
     button {
@@ -37,31 +39,24 @@
       color: #1f1f1f;
     }
 
-    .matrix-stream {
-      position: fixed;
-      bottom: 10px;
-      right: 10px;
-      width: 120px;
-      height: 80px;
-      overflow: hidden;
-      font-size: 12px;
-      line-height: 1.2;
+    .matrix-line {
+      position: absolute;
+      white-space: nowrap;
       color: #00ff99;
-      background: rgba(0, 0, 0, 0.2);
+      opacity: 0.15;
+      font-size: 14px;
       pointer-events: none;
+      animation: rise 4s linear forwards;
     }
 
-    .matrix-text {
-      animation: scroll-up 4s linear infinite;
-      white-space: pre-wrap;
-    }
-
-    @keyframes scroll-up {
+    @keyframes rise {
       0% {
-        transform: translateY(100%);
+        transform: translateY(100vh);
+        opacity: 0.15;
       }
       100% {
-        transform: translateY(-100%);
+        transform: translateY(-20vh);
+        opacity: 0;
       }
     }
   </style>
@@ -73,25 +68,28 @@
     </button>
   </div>
 
-  <div class="matrix-stream">
-    <div class="matrix-text" id="matrix"></div>
-  </div>
-
   <script>
     const chars = '01#@%$&*+=-'.split('');
-    function generateMatrixLines(lines = 30, length = 16) {
-      const matrix = [];
-      for (let i = 0; i < lines; i++) {
-        let line = '';
-        for (let j = 0; j < length; j++) {
-          line += chars[Math.floor(Math.random() * chars.length)];
-        }
-        matrix.push(line);
-      }
-      return matrix.join('\n');
+
+    function createMatrixLine() {
+      const line = document.createElement('div');
+      line.className = 'matrix-line';
+      const textLength = Math.floor(Math.random() * 20) + 10;
+      line.textContent = Array.from({ length: textLength }, () =>
+        chars[Math.floor(Math.random() * chars.length)]
+      ).join('');
+
+      line.style.left = `${Math.random() * 100}%`;
+      line.style.top = '100vh';
+
+      document.body.appendChild(line);
+
+      setTimeout(() => {
+        line.remove();
+      }, 4000); // match animation duration
     }
 
-    document.getElementById('matrix').textContent = generateMatrixLines();
+    setInterval(createMatrixLine, 500); // One every 0.5s
   </script>
 </body>
 </html>
