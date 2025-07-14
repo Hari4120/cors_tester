@@ -41,23 +41,22 @@
 
     .char {
       position: absolute;
-      color: #00ff66;
-      text-shadow: 0 0 10px #00ff66, 0 0 5px #00ff66;
+      color: #00ff99;
       font-size: 20px;
       font-weight: bold;
-      opacity: 1;
-      animation: floatChar 1.8s linear forwards;
+      opacity: 0.85;
       pointer-events: none;
       z-index: 1;
+      animation: floatUp 2s linear forwards;
     }
 
-    @keyframes floatChar {
+    @keyframes floatUp {
       0% {
-        transform: translateY(100vh);
+        transform: translateY(0vh);
         opacity: 1;
       }
       100% {
-        transform: translateY(-10vh);
+        transform: translateY(-100vh);
         opacity: 0;
       }
     }
@@ -73,28 +72,25 @@
   <script>
     const chars = '01#@%$&*+=-^'.split('');
 
-    function spawnSnakeColumn() {
-      const columnX = Math.random() * window.innerWidth;
-      const length = Math.floor(Math.random() * 8) + 5;
+    function spawnColumn() {
+      const x = Math.random() * window.innerWidth;
+      const length = Math.floor(Math.random() * 8) + 4;
 
       for (let i = 0; i < length; i++) {
         setTimeout(() => {
-          const char = document.createElement('div');
-          char.className = 'char';
-          char.style.left = `${columnX}px`;
-          char.style.bottom = `0px`;
-          char.textContent = chars[Math.floor(Math.random() * chars.length)];
-          document.body.appendChild(char);
+          const el = document.createElement('div');
+          el.className = 'char';
+          el.style.left = `${x}px`;
+          el.style.bottom = '0px';
+          el.textContent = chars[Math.floor(Math.random() * chars.length)];
+          document.body.appendChild(el);
 
-          // Remove after animation
-          setTimeout(() => {
-            char.remove();
-          }, 2000);
-        }, i * 120); // stagger
+          setTimeout(() => el.remove(), 2500);
+        }, i * 100);
       }
     }
 
-    setInterval(spawnSnakeColumn, 600);
+    setInterval(spawnColumn, 600);
   </script>
 </body>
 </html>
