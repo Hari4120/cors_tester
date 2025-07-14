@@ -5,60 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CORS Test</title>
   <style>
-    @keyframes borderGlow {
-      0% {
-        box-shadow: 0 0 5px #00ff99, 0 0 10px #00ff99, 0 0 20px #00ff99;
-      }
-      50% {
-        box-shadow: 0 0 10px #00ffaa, 0 0 20px #00ffaa, 0 0 30px #00ffaa;
-      }
-      100% {
-        box-shadow: 0 0 5px #00ff99, 0 0 10px #00ff99, 0 0 20px #00ff99;
-      }
-    }
-
     body {
       font-family: monospace;
       background: #121212;
       color: #00ff99;
       padding: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
     }
-
     .container {
+      max-width: 400px;
+      margin: 100px auto;
       background: #1f1f1f;
-      padding: 30px;
+      padding: 20px;
       border: 1px solid #00ff99;
-      border-radius: 10px;
-      animation: borderGlow 2s infinite ease-in-out;
-      text-align: center;
     }
-
     h1 {
+      text-align: center;
       margin-bottom: 20px;
-      font-size: 1.8rem;
-      text-shadow: 0 0 8px #00ff99;
     }
-
     button {
-      padding: 10px 20px;
+      width: 100%;
+      padding: 10px;
       background: #1f1f1f;
       color: #00ff99;
       border: 1px solid #00ff99;
       cursor: pointer;
       font-family: monospace;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-      animation: borderGlow 2s infinite ease-in-out;
-    }
-
-    button:hover {
-      background: #00ff99;
-      color: #1f1f1f;
-      transform: scale(1.05);
     }
   </style>
 </head>
